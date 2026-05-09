@@ -1,7 +1,7 @@
 # src/ia.py
 import streamlit as st
 from transformers import BlenderbotTokenizer, BlenderbotForConditionalGeneration
-from src.utils import traduzir
+from src.utils.utils import traduzir
 
 @st.cache_resource
 def carregar_modelo():
