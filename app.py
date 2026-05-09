@@ -12,37 +12,70 @@ def carregar_modelo():
 
 tokenizer, model = carregar_modelo()
 
-st.title("Chatbot")
+#   página inicial
 
-if "historico" not in st.session_state:
-    st.session_state.historico = []
+def inicial():
+    st.title("fodase")
+    return
 
-# exibindo o histórico
-for mensagem in st.session_state.historico:
-    with st.chat_message(mensagem["role"]):
-        st.write(mensagem["content"])
 
-# input do usuário
-pergunta = st.chat_input("Digite sua mensagem...")
+#   criando uma sidebar
 
-if pergunta:
-    with st.chat_message("user"):
-        st.write(pergunta)
+with st.sidebar:
 
-    st.session_state.historico.append({"role": "user", "content": pergunta})
+    st.title("🚀 Menu")
 
-    # traduz pergunta para inglês
-    pergunta_en = GoogleTranslator(source="pt", target="en").translate(pergunta)
+    st.divider()
 
-    # tokeniza e gera resposta
-    inputs = tokenizer(pergunta_en, return_tensors="pt")
-    output = model.generate(**inputs, max_new_tokens=100)
-    resposta_en = tokenizer.decode(output[0], skip_special_tokens=True)
+    pagSobre= st.button("🏢 Sobre Nós", use_container_width=True)
+    
 
-    # traduz resposta para português
-    resposta = GoogleTranslator(source="en", target="pt").translate(resposta_en)
+    st.write("")
 
-    with st.chat_message("assistant"):
-        st.write(resposta)
+    pagChat= st.button("👾 Chat Bot", use_container_width=True)
+    
 
-    st.session_state.historico.append({"role": "assistant", "content": resposta})
+#   pagina Sobre nós
+
+if pagSobre:
+    st.title("oioi")
+
+
+# pagina do chatbot
+
+elif pagChat:
+
+    st.title("Chatbot")
+
+    if "historico" not in st.session_state:
+        st.session_state.historico = []
+
+    # exibindo o histórico
+    for mensagem in st.session_state.historico:
+        with st.chat_message(mensagem["role"]):
+            st.write(mensagem["content"])
+
+    # input do usuário
+    pergunta = st.chat_input("Digite sua mensagem...")
+
+    if pergunta:
+        with st.chat_message("user"):
+            st.write(pergunta)
+
+        st.session_state.historico.append({"role": "user", "content": pergunta})
+
+        # traduz pergunta para inglês
+        pergunta_en = GoogleTranslator(source="pt", target="en").translate(pergunta)
+
+        # tokeniza e gera resposta
+        inputs = tokenizer(pergunta_en, return_tensors="pt")
+        output = model.generate(**inputs, max_new_tokens=100)
+        resposta_en = tokenizer.decode(output[0], skip_special_tokens=True)
+
+        # traduz resposta para português
+        resposta = GoogleTranslator(source="en", target="pt").translate(resposta_en)
+
+        with st.chat_message("assistant"):
+            st.write(resposta)
+
+        st.session_state.historico.append({"role": "assistant", "content": resposta})
