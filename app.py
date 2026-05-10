@@ -10,38 +10,38 @@ st.set_page_config(
     layout="wide"
 )
 
-#   página inicial
+# Set paginal inicial
+if "pagina" not in st.session_state:
+    st.session_state.pagina = "inicial"
 
-def inicial():
-    st.title("fodase")
-    return
-
-
-#   criando uma sidebar
-
+# Sidebar
 with st.sidebar:
     st.image("assets/logo.png", width=80)
     st.title("Menu")
     st.divider()
 
-    pagSobre= st.button("🏢 Sobre Nós", use_container_width=True)
-    
+    if st.button("Pagina Inicial", use_container_width=True):
+        st.session_state.pagina = "inicio"
 
-    st.write("")
+    if st.button("Chat Bot", use_container_width=True):
+        st.session_state.pagina = "chat"
 
-    pagChat= st.button("👾 Chat Bot", use_container_width=True)
-    
+    if st.button("Chats abertos", use_container_width=True):
+        st.session_state.pagina = "chats"
 
-#   pagina Sobre nós
+    if st.button("Sobre Nós", use_container_width=True):
+        st.session_state.pagina = "sobre"
 
-if pagSobre:
-    st.title("oioi")
+    st.divider()
+    st.caption("v1.0.0")
 
+if st.session_state.pagina == "inicio":
+    inicio.mostrar()
 
-# pagina do chatbot
+if st.session_state.pagina == "sobre":
+    sobre.mostrar()
 
-elif pagChat:
-
+elif st.session_state.pagina == "chat":
     st.title("Chatbot")
 
     if "historico" not in st.session_state:
