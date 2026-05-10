@@ -1,16 +1,20 @@
 # app.py
 import streamlit as st
 from src.ia import gerar_resposta
+from views import sobre, chats, chat, inicio
 
+# Config da pagina nome e logo
 st.set_page_config(
     page_title="Chatbot",
     page_icon="assets/logo.png",
     layout="wide"
 )
 
+# Set paginal inicial
 if "pagina" not in st.session_state:
     st.session_state.pagina = "inicial"
 
+# Sidebar
 with st.sidebar:
     st.image("assets/logo.png", width=80)
     st.title("Menu")
@@ -32,10 +36,10 @@ with st.sidebar:
     st.caption("v1.0.0")
 
 if st.session_state.pagina == "inicio":
-    st.title("Inicio")
+    inicio.mostrar()
 
 if st.session_state.pagina == "sobre":
-    st.title("oioi")
+    sobre.mostrar()
 
 elif st.session_state.pagina == "chat":
     st.title("Chatbot")
