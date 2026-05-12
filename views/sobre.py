@@ -6,7 +6,14 @@ def get_image_base64(path):
     with open(path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
     
+#IMAGENS UTILIZADAS:
 img_base64 = get_image_base64("imgs/pexels-tara-winstead-8386440.jpg")
+img_gabriel = get_image_base64("imgs/FotoGabriel.png")
+img_gui = get_image_base64("imgs/FotoGui.jpeg")
+img_nel = get_image_base64("imgs/FotoAntonella.jpeg")
+img_adel = get_image_base64("imgs/FotoAdelano.jpeg")
+img_github = get_image_base64("imgs/github-icon-9.png")
+
 
 def mostrar():
     #HTML
@@ -43,6 +50,31 @@ def mostrar():
     </div>
     <div class="explicarNumpy"
         <p>NumPy: \nBiblioteca para manipulação de matrizes e cálculos numéricos de alta performance. É o motor matemático da IA.</p>
+    </div>
+</div>
+<div class="criadores">
+<h1>Criadores</h1>
+</div>
+<div class="containerFotos">
+    <div class="fotoGabriel">
+        <img src="data:image/png;base64,{img_gabriel}">
+        <p>Gabriel Andrade</p>
+        <a class="linkGithub" href="https://github.com/gandrade767" target="blank"><img class="github" src="data:image/png;base64,{img_github}"></a>
+    </div>
+    <div class="fotoGui">
+        <img src="data:image/jpeg;base64,{img_gui}">
+        <p>Guilherme Graces</p>
+        <a class="linkGithub" href="https://github.com/GuilhermeGraces" target="blank"><img class="github" src="data:image/png;base64,{img_github}"></a>
+    </div>
+    <div class="fotoNel">
+        <img src="data:image/jpeg;base64,{img_nel}">
+        <p>Antonella Scanoni</p>
+        <a class="linkGithub" href="https://github.com/Nescauu17" target="blank"><img class="github" src="data:image/png;base64,{img_github}"></a>
+    </div>
+    <div class="fotoAdel">
+        <img src="data:image/jpeg;base64,{img_adel}">
+        <p>Adelano Mascarenhas</p>
+        <a class="linkGithub" href="https://github.com/Pontas89" target="blank"><img class="github" src="data:image/png;base64,{img_github}"></a>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -105,35 +137,68 @@ def mostrar():
                 .conteudoUtilizado{
                 font-size: 26px !important;
                 }
-                .explicarStreamlit{
+                .explicarStreamlit, .explicarTransformers, .explicarNumpy{
                 width:30%;
                 text-align:center;
                 display:inline-block;
                 margin-top:20px;
                 font-size: 17px !important;
                 }
-                .explicarTransformers{
-                width:30%;
-                text-align:center;
-                display:inline-block;
-                margin-top:20px;
-                font-size: 17px !important;
-                }
-                .explicarNumpy{
-                width:30%;
-                text-align:center;
-                display:inline-block;
-                margin-top:20px;
-                font-size: 17px !important;
-
-                }
+                
                 .links a{
                 text-decoration:none;
+                display:inline-block;
+                transition: transform 0.5s ease-in-out;
+                }
+                .links a:hover{
+                transition: 0.5s;
+                transform: scale(1.1);
+                color:#B6ECF2 !important;
                 }
 
                 
+                .criadores{
+                clear:both;
+                text-align:center;
+                margin-top:550px;
+                color:#2878d8 !important;
+                }
+                .containerFotos{
+                display:flex;
+                clear:both;
+                text-align:center;
+                }
+                .fotoGabriel img, .fotoGui img, .fotoNel img, .fotoAdel img{
+                margin-top:100px;
+                height:250px;
+                width:250px;
+                border-radius:100%;
+                object-fit: cover;
+                }
+                .fotoGabriel, .fotoGui, .fotoNel, .fotoAdel{
+                width:25%;
+                }
+                .fotoGabriel p, .fotoGui p, .fotoNel p, .fotoAdel p{
+                margin-top:20px;
+                font-size: 20px !important;
+                margin-bottom: 0px !important;
+                }
 
+                .linkGithub{
+                display:block
+                }
 
+                .github{
+                height:70px !important;
+                width:70px !important;
+                margin-top: 5px !important;
+                transition: transform 0.5s ease-in-out;
+                }
+                .github:hover{
+                transition: 0.5s;
+                transform: scale(1.1);
+                }
+                
 
                 </style>
                 """,
