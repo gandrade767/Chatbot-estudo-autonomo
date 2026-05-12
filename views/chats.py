@@ -1,4 +1,3 @@
-# views/chats.py
 import streamlit as st
 
 def mostrar():

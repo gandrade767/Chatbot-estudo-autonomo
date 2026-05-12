@@ -1,56 +1,37 @@
-# views/chat.py
 import streamlit as st
-from src.ia import gerar_resposta
-from datetime import datetime
+from src.ia_gemini import gerar_resposta_gemini
+from src.ia_blenderBot import gerar_resposta_blenderbot
+from src.ia_class import gerar_resposta_classificador
+import time
 
 def mostrar():
-    st.markdown("""
-        <div style='text-align: center; padding: 10px 0 20px 0;'>
-            <h1>Chatbot</h1>
-            <p style='color: gray;'>Tire suas dúvidas com a IA</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.title("Chat")
 
-    st.divider()
+    #Seleção da Função de IA
+    if st.session_state.selected_model == "Gemini":
+        gerar_resposta_ia = gerar_resposta_gemini
+    elif st.session_state.selected_model == "BlenderBot":
+        gerar_resposta_ia = gerar_resposta_blenderbot
+    elif st.session_state.selected_model == "Classificador":
+        gerar_resposta_ia = gerar_resposta_classificador
+    else:
+        st.error("Modelo de IA não selecionado ou inválido.")
+        return
 
-    if "historico" not in st.session_state:
-        st.session_state.historico = []
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-    if "conversas" not in st.session_state:
-        st.session_state.conversas = []
-
-    if len(st.session_state.historico) > 0:
-        if st.button("Encerrar e salvar conversa"):
-            st.session_state.conversas.append({
-                "data": datetime.now().strftime("%d/%m/%Y %H:%M"),
-                "historico": st.session_state.historico.copy()
-            })
-            st.session_state.historico = []
-            st.success("Conversa salva!")
-            st.rerun()
-
-    if len(st.session_state.historico) == 0:
-        st.markdown("""
-            <div style='text-align: center; padding: 60px 0; color: gray;'>
-                <h3>Nenhuma mensagem ainda</h3>
-                <p>Comece digitando sua pergunta abaixo 👇</p>
-            </div>
-        """, unsafe_allow_html=True)
-
-    for mensagem in st.session_state.historico:
-        with st.chat_message(mensagem["role"]):
-            st.write(mensagem["content"])
-
-    pergunta = st.chat_input("Digite sua mensagem...")
-
-    if pergunta:
+    if prompt := st.chat_input("Pergunte algo..."):
+        st.session_state.chat_history.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
-            st.write(pergunta)
-        st.session_state.historico.append({"role": "user", "content": pergunta})
+            st.markdown(prompt)
+
+        historico_para_ia = st.session_state.chat_history.copy()
 
         with st.chat_message("assistant"):
             with st.spinner("Pensando..."):
-                resposta = gerar_resposta(pergunta)
-            st.write(resposta)
+                resposta = gerar_resposta_ia(prompt, historico_para_ia)
+                st.markdown(resposta)
 
-        st.session_state.historico.append({"role": "assistant", "content": resposta})
+        st.session_state.chat_history.append({"role": "assistant", "content": resposta})

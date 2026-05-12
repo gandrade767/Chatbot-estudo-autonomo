@@ -1,17 +1,18 @@
-# src/ia.py
 import streamlit as st
 from transformers import BlenderbotTokenizer, BlenderbotForConditionalGeneration
 from src.utils.utils import traduzir
 
 @st.cache_resource
-def carregar_modelo():
+def carregar_modelo_blenderbot():
     modelo = "facebook/blenderbot-400M-distill"
     tokenizer = BlenderbotTokenizer.from_pretrained(modelo)
     model = BlenderbotForConditionalGeneration.from_pretrained(modelo)
     return tokenizer, model
 
-def gerar_resposta(pergunta: str) -> str:
-    tokenizer, model = carregar_modelo()
+
+def gerar_resposta_blenderbot(pergunta: str, historico: list) -> str:
+    tokenizer, model = carregar_modelo_blenderbot()
+
     pergunta_en = traduzir(pergunta, "pt", "en")
     inputs = tokenizer(pergunta_en, return_tensors="pt")
     output = model.generate(**inputs, max_new_tokens=100)
