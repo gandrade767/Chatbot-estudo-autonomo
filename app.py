@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from views import sobre, chats, chat, inicio
 import base64
