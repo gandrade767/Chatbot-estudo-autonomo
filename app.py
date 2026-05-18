@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from views import historico, sobre, chat, inicio
 from src.components.sidebar import mostrar_sidebar # Importa a nova função da sidebar
