@@ -7,6 +7,7 @@ Chatbot conversacional em português utilizando o modelo BlenderBot da Meta com 
 - Python
 - Streamlit
 - Transformers (Hugging Face)
+- Gemini generative
 - Deep Translator
 - PyTorch
 

@@ -1,6 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold # Importe se for usar safety_settings
+ # Importe se for usar safety_settings
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 @st.cache_resource
 def carregar_modelo_gemini():
@@ -26,15 +27,16 @@ def carregar_modelo_gemini():
         Responda sempre em português de forma clara e objetiva.
         Você pode ajudar com informações sobre:
         - Matrícula: procure a secretaria no bloco X
-        - Secretaria: funciona de segunda a sexta das 8h às 18h
+        - Secretaria: funciona de segunda a sexta das 07:00h às 22:00h | Fale conosco https://www.unigran.br/campogrande/fale-conosco
         - Coordenação: envie e-mail ou vá ao bloco X
-        - Notas: acesse o portal do aluno em portal.faculdade.com.br
+        - Notas: acesse o portal do aluno em https://area.campogrande.unigran.br
         - Dúvidas gerais sobre a vida acadêmica
 
         Se não souber a resposta, oriente o aluno a procurar a secretaria.
         Seja simpático e acolhedor, lembrando que são calouros.
         """,
-        safety_settings=SAFETY_SETTINGS # Adicione as configurações de segurança
+        # Configurações de segurança
+        safety_settings=SAFETY_SETTINGS 
     )
     return model
 
@@ -50,25 +52,12 @@ def gerar_resposta_gemini(pergunta: str, historico: list) -> str:
         # Cada item em 'parts' deve ser um dicionário com a chave 'text'
         gemini_historico.append({"role": role, "parts": [{"text": msg["content"]}]})
 
-    # Inicia um chat com o histórico formatado
-    # Importante: o Gemini espera que o histórico termine com uma resposta do 'model'.
-    # Se a última mensagem no 'historico' do Streamlit for do 'user',
-    # e você passar para o Gemini, ele pode dar erro.
-    # A API do Gemini lida com isso se você passar o histórico e a pergunta separadamente.
-    # O 'historico' que vem do Streamlit já inclui a última pergunta do usuário.
-    # Portanto, o 'historico' que você passa para o start_chat deve ser o histórico
-    # ANTES da pergunta atual do usuário.
-    # No views/chat.py, você passa `historico_para_ia` que é uma cópia do `st.session_state.chat_history`.
-    # O `st.session_state.chat_history` já tem a pergunta atual do usuário.
-    # A API do Gemini espera que o `history` do `start_chat` contenha apenas os turnos ANTERIORES.
-    # A pergunta atual é passada no `send_message`.
-
-    # Para evitar o erro, vamos remover a última mensagem (que é a pergunta atual do usuário)
-    # do histórico que passamos para start_chat, e a passaremos separadamente em send_message.
-    # Isso é crucial para o Gemini API.
-    historico_para_start_chat = gemini_historico[:-1] # Remove a última mensagem (pergunta do usuário)
+    # Remove a última mensagem (pergunta do usuário)
+    historico_para_start_chat = gemini_historico[:-1]
 
     chat = model.start_chat(history=historico_para_start_chat)
-    response = chat.send_message(pergunta) # A pergunta atual é enviada aqui
+
+    # A pergunta atual é enviada aqui
+    response = chat.send_message(pergunta)
 
     return response.text
