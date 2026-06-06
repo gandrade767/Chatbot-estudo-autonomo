@@ -28,7 +28,7 @@ def mostrar_sidebar():
         if st.button("⌂  Página Inicial", use_container_width=True, key="nav_inicio"):
             st.session_state.pagina = "inicio"
 
-        if st.button(" (☞ﾟヮﾟ)☞ Chat Bot", use_container_width=True, key="nav_chat"):
+        if st.button("☞ Chat Bot", use_container_width=True, key="nav_chat"):
             st.session_state.pagina = "chat"
 
         if st.button("↺  Histórico de Chats", use_container_width=True, key="nav_historico"):
